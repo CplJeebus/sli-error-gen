@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"time"
@@ -12,8 +13,9 @@ type ErrorSet struct {
 }
 
 type ErrorDay struct {
-	Date      time.Time `json:"date"`
-	ErrorMins float64   `json:"ErrorMins"`
+	Date       time.Time `json:"date"`
+	ErrorMins  float64   `json:"error_mins"`
+	ErrorBurnt float64   `json:"error_burnt"`
 }
 
 type Slo struct {
@@ -23,9 +25,9 @@ type Slo struct {
 }
 
 func main() {
-	Errors := make([]ErrorDay, 200)
+	Errors := make([]ErrorDay, 180)
 
-	var error float64
+	var errorburn float64
 
 	var SillyErrorSet ErrorSet
 
@@ -41,16 +43,17 @@ func main() {
 
 		switch {
 		case i < 28 && i == 0:
-			error = randomError
+			errorburn = randomError
 		case i < 28 && i > 0:
-			error = randomError + Errors[i-1].ErrorMins
+			errorburn = randomError + Errors[i-1].ErrorBurnt
 		case i > 28:
-			error = randomError + Errors[i-1].ErrorMins - Errors[i].ErrorMins
+			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-28].ErrorMins
 		}
 
 		Errors[i] = ErrorDay{
-			Date:      when,
-			ErrorMins: error,
+			Date:       when,
+			ErrorMins:  randomError,
+			ErrorBurnt: errorburn,
 		}
 	}
 
@@ -58,5 +61,7 @@ func main() {
 		ErrorDays: Errors,
 		SloDef:    SillySlo,
 	}
-	fmt.Print(SillyErrorSet)
+	out, _ := json.Marshal(SillyErrorSet)
+	//fmt.Print(len(out))
+	fmt.Println(string(out))
 }
