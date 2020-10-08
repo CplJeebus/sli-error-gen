@@ -4,11 +4,14 @@ Silly script to create error data for sample SLI\SLO graphs. Basic idea is that 
 
 ## Todo
 
-- Get output working as a csv and json
-- Create Fast Burn _Bart Simpson_ event(s)
-- Create Slow Burn events. 
-- Parameterise all of it.
-- Add graphing function. 
-- In addition to the running tally of mins burn should include errors burned that day. 
+- Get output working as a csv and json -- `json` DONE
+- Create Fast Burn _Bart Simpson_ event(s) -- DONE
+- Create Slow Burn events.  -- DONE
+- Parameterise all of it. -- DONE
+- Add graphing function. -- DONE
+- In addition to the running tally of mins burn should include errors burned that day. -- DONE
 - Add rampup toggle flag to conf file
-- 
+- Serious refactoring required 
+  - All the variables are named awful
+  - Hard to read and clunky 
+  - Also some general refactoring, should be able to apply different SLOs to same event. 
