@@ -10,3 +10,5 @@ Silly script to create error data for sample SLI\SLO graphs. Basic idea is that 
 - Parameterise all of it.
 - Add graphing function. 
 - In addition to the running tally of mins burn should include errors burned that day. 
+- Add rampup toggle flag to conf file
+- 

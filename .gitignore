@@ -1,3 +1,10 @@
+src/errorGen/points.png
+./errorGen
 errorGen
 pkg
 src/gopkg.in/
+src/gioui.org/
+src/github.com/
+src/golang.org/
+src/gonum.org/
+src/rsc.io/
