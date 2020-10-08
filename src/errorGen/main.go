@@ -10,24 +10,24 @@ import (
 
 func main() {
 	var conf ScenarioConf
-	conf.GetConf()
-	fmt.Println(conf)
 
-	Errors := make([]ErrorDay, 180)
+	conf.GetConf()
+
+	Errors := make([]ErrorDay, conf.Duration)
 
 	var errorburn float64
 
 	var SillyErrorSet ErrorSet
 
 	SillySlo := Slo{
-		Name:       "Dummy Data",
-		Days:       28,
-		SloPrecent: 99.9,
+		Name:       conf.SLO[0].Name,
+		Days:       conf.SLO[0].PeriodDays,
+		SloPrecent: conf.SLO[0].Slo,
 	}
 
-	for i := 0; i < 180; i++ {
-		when := time.Now().AddDate(0, 0, i-180)
-		randomError := rand.Float64() * 10
+	for i := 0; i < conf.Duration; i++ {
+		when := time.Now().AddDate(0, 0, i-conf.Duration)
+		randomError := rand.Float64() * conf.SLO[0].NormalErrorMax
 
 		switch {
 		case i < 28 && i == 0:
@@ -35,7 +35,7 @@ func main() {
 		case i < 28 && i > 0:
 			errorburn = randomError + Errors[i-1].ErrorBurnt
 		case i > 28:
-			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-28].ErrorMins
+			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-conf.SLO[0].PeriodDays].ErrorMins
 		}
 
 		Errors[i] = ErrorDay{

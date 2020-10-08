@@ -20,7 +20,7 @@ type ErrorDay struct {
 }
 
 type Slo struct {
-	SloPrecent float32 `json:"slo_precent"`
+	SloPrecent float64 `json:"slo_precent"`
 	Days       int     `json:"slo_days"`
 	Name       string  `json:"name"`
 }
@@ -34,7 +34,7 @@ type SloConf struct {
 	Name           string     `yaml:"name"`
 	Slo            float64    `yaml:"slo_precent"`
 	PeriodDays     int        `yaml:"days"`
-	NormalErrorMax int        `yaml:"normal_error_max"`
+	NormalErrorMax float64    `yaml:"normal_error_max"`
 	Events         []SloEvent `yaml:"events"`
 }
 
@@ -49,6 +49,7 @@ func (s *ScenarioConf) GetConf() *ScenarioConf {
 	if err != nil {
 		log.Printf("opening conf file err   #%v ", err)
 	}
+
 	err = yaml.Unmarshal(Conf, s)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)

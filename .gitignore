@@ -1,4 +1,4 @@
 ./main
-./errorGen
+errorGen
 pkg
 src/gopkg.in/
