@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	. "errorGen/output"
 	. "errorGen/types"
 	"fmt"
 	"math/rand"
@@ -35,7 +36,8 @@ func main() {
 		case i < 28 && i > 0:
 			errorburn = randomError + Errors[i-1].ErrorBurnt
 		case i > 28:
-			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-conf.SLO[0].PeriodDays].ErrorMins
+			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-conf.SLO[0].PeriodDays].ErrorMins + Burn(conf, i)
+			randomError = randomError + Burn(conf, i)
 		}
 
 		Errors[i] = ErrorDay{
@@ -52,4 +54,22 @@ func main() {
 	out, _ := json.Marshal(SillyErrorSet)
 	//fmt.Print(len(out))
 	fmt.Println(string(out))
+	CreatePlot(SillyErrorSet)
+}
+
+func Burn(c ScenarioConf, w int) float64 {
+	for i := range c.SLO[0].Events {
+		switch {
+		case c.SLO[0].Events[i].Type == "fast":
+			if w == c.SLO[0].Events[i].Occurs {
+				return c.SLO[0].Events[i].BurnRate
+			}
+		case c.SLO[0].Events[i].Type == "slow":
+			if w > c.SLO[0].Events[i].Occurs && w < c.SLO[0].Events[i].Occurs+c.SLO[0].Events[i].Duration {
+				return c.SLO[0].Events[i].BurnRate
+			}
+		}
+	}
+
+	return 0
 }

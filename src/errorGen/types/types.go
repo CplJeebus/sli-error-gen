@@ -42,6 +42,7 @@ type SloEvent struct {
 	Type     string  `yaml:"type"`
 	BurnRate float64 `yaml:"burn"`
 	Occurs   int     `yaml:"occurs"`
+	Duration int     `yaml:"duration"`
 }
 
 func (s *ScenarioConf) GetConf() *ScenarioConf {
