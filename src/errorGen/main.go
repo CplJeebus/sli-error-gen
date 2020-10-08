@@ -2,29 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	. "errorGen/types"
 	"fmt"
 	"math/rand"
 	"time"
 )
 
-type ErrorSet struct {
-	ErrorDays []ErrorDay `json:"error_days"`
-	SloDef    Slo        `json:"slo"`
-}
-
-type ErrorDay struct {
-	Date       time.Time `json:"date"`
-	ErrorMins  float64   `json:"error_mins"`
-	ErrorBurnt float64   `json:"error_burnt"`
-}
-
-type Slo struct {
-	SloPrecent float32 `json:"slo_precent"`
-	Days       int     `json:"slo_days"`
-	Name       string  `json:"name"`
-}
-
 func main() {
+	var conf ScenarioConf
+	conf.GetConf()
+	fmt.Println(conf)
+
 	Errors := make([]ErrorDay, 180)
 
 	var errorburn float64

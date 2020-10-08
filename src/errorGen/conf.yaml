@@ -1,0 +1,6 @@
+duration: 180
+slo:
+  - name: "99.9% for 28 days"
+    slo_precent: 99.9
+    days: 28
+    normal_error_max: 4
