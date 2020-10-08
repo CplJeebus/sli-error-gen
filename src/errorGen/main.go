@@ -36,8 +36,8 @@ func main() {
 		case i < 28 && i > 0:
 			errorburn = randomError + Errors[i-1].ErrorBurnt
 		case i > 28:
-			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-conf.SLO[0].PeriodDays].ErrorMins + Burn(conf, i)
-			randomError = randomError + Burn(conf, i)
+			errorburn = randomError + Errors[i-1].ErrorBurnt - Errors[i-conf.SLO[0].PeriodDays].ErrorMins + Burn(conf.SLO[0].Events, i)
+			randomError = randomError + Burn(conf.SLO[0].Events, i)
 		}
 
 		Errors[i] = ErrorDay{
@@ -57,16 +57,16 @@ func main() {
 	CreatePlot(SillyErrorSet)
 }
 
-func Burn(c ScenarioConf, w int) float64 {
-	for i := range c.SLO[0].Events {
+func Burn(evnts []SloEvent, w int) float64 {
+	for i := range evnts {
 		switch {
-		case c.SLO[0].Events[i].Type == "fast":
-			if w == c.SLO[0].Events[i].Occurs {
-				return c.SLO[0].Events[i].BurnRate
+		case evnts[i].Type == "fast":
+			if w == evnts[i].Occurs {
+				return evnts[i].BurnRate
 			}
-		case c.SLO[0].Events[i].Type == "slow":
-			if w > c.SLO[0].Events[i].Occurs && w < c.SLO[0].Events[i].Occurs+c.SLO[0].Events[i].Duration {
-				return c.SLO[0].Events[i].BurnRate
+		case evnts[i].Type == "slow":
+			if w > evnts[i].Occurs && w < evnts[i].Occurs + evnts[i].Duration {
+				return evnts[i].BurnRate
 			}
 		}
 	}

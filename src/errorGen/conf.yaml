@@ -1,15 +1,15 @@
 duration: 180
 slo:
-  - name: "99.9% for 28 days"
+  - name: "99.99% for 28 days"
     slo_precent: 99.999
     days: 28
-    normal_error_max: 4
+    normal_error_max: 2
     events:
       - type: "fast"
-        burn: 60
-        occurs: 70
+        burn: 100
+        occurs: 80
       - type: "slow"
-        burn: 3
+        burn: .5
         occurs: 120
-        duration: 20
+        duration: 60
 
